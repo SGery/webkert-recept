@@ -1,4 +1,3 @@
-/* app.component.scss */
 .app-container {
     display: flex;
     flex-direction: column;
@@ -24,7 +23,7 @@
   
   .sidenav-container {
     flex: 1;
-    margin-top: 64px; /* Height of the toolbar */
+    margin-top: 64px;
   }
   
   .sidenav {
@@ -40,9 +39,8 @@
     background-color: rgba(0, 0, 0, 0.04);
   }
   
-  /* Media query for smaller screens */
   @media (max-width: 599px) {
     .sidenav-container {
-      margin-top: 56px; /* Smaller toolbar height on mobile */
+      margin-top: 56px;
     }
   }

@@ -1,4 +1,3 @@
-// components/recipe-form/recipe-form.component.ts
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -152,7 +151,6 @@ export class RecipeFormComponent implements OnInit {
     }
   }
 
-  // Helper method to mark all controls as touched
   private markFormGroupTouched(formGroup: FormGroup) {
     Object.values(formGroup.controls).forEach(control => {
       control.markAsTouched();

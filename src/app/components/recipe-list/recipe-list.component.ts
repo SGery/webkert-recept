@@ -1,4 +1,3 @@
-// components/recipe-list/recipe-list.component.ts
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Recipe } from '../../models/recipe.model';

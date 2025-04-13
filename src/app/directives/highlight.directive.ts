@@ -1,4 +1,3 @@
-// directives/highlight.directive.ts
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 
 @Directive({

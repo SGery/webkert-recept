@@ -1,4 +1,3 @@
-// components/navbar/navbar.component.ts
 import { Component, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 
