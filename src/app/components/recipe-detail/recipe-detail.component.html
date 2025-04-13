@@ -1,0 +1,104 @@
+<!-- components/recipe-detail/recipe-detail.component.html -->
+<div class="recipe-detail-container" *ngIf="recipe$ | async as recipe">
+    <mat-card class="recipe-card">
+      <button mat-icon-button class="back-button" (click)="router.navigate(['/recipes'])">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      
+      <div class="recipe-header">
+        <div class="header-content">
+          <h1 class="recipe-title">{{ recipe.name }}</h1>
+          <div class="recipe-meta">
+            <mat-chip-grid>
+              <mat-chip-row [color]="recipe.difficulty === 'easy' ? 'primary' : 
+                           (recipe.difficulty === 'medium' ? 'accent' : 'warn')" 
+                       selected>
+                {{ recipe.difficulty | titlecase }}
+              </mat-chip-row>
+              <mat-chip *ngIf="category$ | async as category">
+                {{ category.name }}
+              </mat-chip>
+            </mat-chip-grid>
+          </div>
+        </div>
+        
+        <div class="header-actions">
+          <button mat-mini-fab color="primary" [routerLink]="['/recipes', recipe.id, 'edit']">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-mini-fab color="warn" (click)="deleteRecipe(recipe.id || '')">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+      
+      <mat-divider></mat-divider>
+      
+      <div class="recipe-image-container" *ngIf="recipe.imageUrl">
+        <img [src]="recipe.imageUrl" [alt]="recipe.name" class="recipe-image" appImageFallback>
+      </div>
+      
+      <div class="recipe-summary">
+        <p class="recipe-description">{{ recipe.description }}</p>
+        
+        <mat-card class="info-card">
+          <mat-card-content>
+            <div class="info-item">
+              <mat-icon>timer</mat-icon>
+              <div>
+                <span class="info-label">Prep Time</span>
+                <span class="info-value">{{ recipe.preparationTime | cookingTime }}</span>
+              </div>
+            </div>
+            
+            <div class="info-item">
+              <mat-icon>restaurant</mat-icon>
+              <div>
+                <span class="info-label">Cooking Time</span>
+                <span class="info-value">{{ recipe.cookingTime | cookingTime }}</span>
+              </div>
+            </div>
+            
+            <div class="info-item">
+              <mat-icon>people</mat-icon>
+              <div>
+                <span class="info-label">Servings</span>
+                <span class="info-value">{{ recipe.servings }}</span>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      
+      <mat-divider></mat-divider>
+      
+      <div class="recipe-content">
+        <div class="ingredients-section">
+          <h2>Ingredients</h2>
+          <mat-list>
+            <mat-list-item *ngFor="let ingredient of recipe.ingredients">
+              <mat-icon matListIcon>check_circle_outline</mat-icon>
+              <div matLine>{{ ingredient }}</div>
+            </mat-list-item>
+          </mat-list>
+        </div>
+        
+        <div class="instructions-section">
+          <h2>Instructions</h2>
+          <mat-vertical-stepper linear="false">
+            <mat-step *ngFor="let instruction of recipe.instructions; let i = index" [completed]="false">
+              <ng-template matStepLabel>Step {{ i + 1 }}</ng-template>
+              <p>{{ instruction }}</p>
+            </mat-step>
+          </mat-vertical-stepper>
+        </div>
+      </div>
+      
+      <mat-divider></mat-divider>
+      
+      <div class="recipe-footer">
+        <p class="recipe-date">Created: {{ recipe.createdAt | date:'medium' }}</p>
+        <p class="recipe-date" *ngIf="recipe.updatedAt">Updated: {{ recipe.updatedAt | date:'medium' }}</p>
+      </div>
+    </mat-card>
+  </div>
