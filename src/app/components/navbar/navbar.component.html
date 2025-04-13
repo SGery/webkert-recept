@@ -1,0 +1,19 @@
+<div class="navbar-actions">
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="onAddRecipe()">
+        <mat-icon>add</mat-icon>
+        <span>Add New Recipe</span>
+      </button>
+      <button mat-menu-item [routerLink]="['/categories']">
+        <mat-icon>category</mat-icon>
+        <span>Manage Categories</span>
+      </button>
+    </mat-menu>
+  
+    <button mat-mini-fab color="accent" (click)="onAddRecipe()" class="add-button">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>

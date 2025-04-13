@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recipe Tracker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    header {
+      background-color: #333;
+      color: #fff;
+      padding: 1rem;
+      text-align: center;
+    }
+    main {
+      padding: 2rem;
+    }
+    .recipe-form, .recipe-list {
+      margin-bottom: 2rem;
+    }
+    .recipe-form input, .recipe-form button {
+      margin: 0.5rem 0;
+      padding: 0.5rem;
+    }
+    .recipe-list ul {
+      list-style: none;
+      padding: 0;
+    }
+    .recipe-list li {
+      background: #fff;
+      margin: 0.5rem 0;
+      padding: 1rem;
+      border: 1px solid #ddd;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .recipe-list button {
+      background: #ff4d4d;
+      color: #fff;
+      border: none;
+      padding: 0.5rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Recipe Tracker</h1>
+  </header>
+  <main>
+    <section class="recipe-form">
+      <h2>Add a Recipe</h2>
+      <form id="add-recipe-form">
+        <input type="text" id="recipe-name" placeholder="Recipe Name" required>
+        <input type="text" id="recipe-description" placeholder="Description" required>
+        <input type="number" id="recipe-preparation-time" placeholder="Preparation Time (minutes)" required>
+        <input type="number" id="recipe-cooking-time" placeholder="Cooking Time (minutes)" required>
+        <input type="number" id="recipe-servings" placeholder="Servings" required>
+        <select id="recipe-difficulty" required>
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+        <button type="submit">Add Recipe</button>
+      </form>
+    </section>
+    <section class="recipe-list">
+      <h2>Recipes</h2>
+      <ul id="recipe-list">
+        <!-- Recipes -->
+      </ul>
+    </section>
+  </main>
+  <script>
+    const recipeForm = document.getElementById('add-recipe-form');
+    const recipeList = document.getElementById('recipe-list');
+
+    recipeForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const recipe = {
+        id: Date.now().toString(),
+        name: document.getElementById('recipe-name').value,
+        description: document.getElementById('recipe-description').value,
+        preparationTime: parseInt(document.getElementById('recipe-preparation-time').value, 10),
+        cookingTime: parseInt(document.getElementById('recipe-cooking-time').value, 10),
+        servings: parseInt(document.getElementById('recipe-servings').value, 10),
+        difficulty: document.getElementById('recipe-difficulty').value,
+        userId: 'currentUserId', // Placeholder
+        categoryId: 'defaultCategory', // Placeholder
+        ingredients: [], // Placeholder
+        instructions: [], // Placeholder
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
+
+      const li = document.createElement('li');
+      li.textContent = `${recipe.name} - ${recipe.description} (Prep: ${recipe.preparationTime} mins, Cook: ${recipe.cookingTime} mins)`;
+
+      const editButton = document.createElement('button');
+      editButton.textContent = 'Edit';
+      editButton.addEventListener('click', () => {
+        document.getElementById('recipe-name').value = recipe.name;
+        document.getElementById('recipe-description').value = recipe.description;
+        document.getElementById('recipe-preparation-time').value = recipe.preparationTime;
+        document.getElementById('recipe-cooking-time').value = recipe.cookingTime;
+        document.getElementById('recipe-servings').value = recipe.servings;
+        document.getElementById('recipe-difficulty').value = recipe.difficulty;
+
+        // Remove the recipe from the list temporarily
+        recipeList.removeChild(li);
+      });
+
+      const deleteButton = document.createElement('button');
+      deleteButton.textContent = 'Delete';
+      deleteButton.addEventListener('click', () => {
+        recipeList.removeChild(li);
+      });
+
+      li.appendChild(editButton);
+      li.appendChild(deleteButton);
+      recipeList.appendChild(li);
+
+      recipeForm.reset();
+    });
+  </script>
+</body>
+</html>
