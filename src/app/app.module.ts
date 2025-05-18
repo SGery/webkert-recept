@@ -1,91 +1,39 @@
 import { NgModule } from '@angular/core';
+import { CoreModule } from './core.module';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { RouterModule, Routes } from '@angular/router';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
-// Angular Material
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatCardModule } from '@angular/material/card';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatListModule } from '@angular/material/list';
-import { MatStepperModule } from '@angular/material/stepper';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatBadgeModule } from '@angular/material/badge';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
-// Components
+import { SharedModule } from './shared/shared.module';
 import { AppComponent } from './app.component';
-import { RecipeListComponent } from './components/recipe-list/recipe-list.component';
-import { RecipeDetailComponent } from './components/recipe-detail/recipe-detail.component';
-import { RecipeFormComponent } from './components/recipe-form/recipe-form.component';
-import { CategoryFormComponent } from './components/category-form/category-form.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
-
-// Directives
-import { HighlightDirective } from './directives/highlight.directive';
-import { ImageFallbackDirective } from './directives/image-fallback.directive';
-
-// Pipes
-import { CookingTimePipe } from './pipes/cooking-time.pipe';
-
-// Routes
-const routes: Routes = [
-  { path: '', redirectTo: '/recipes', pathMatch: 'full' },
-  { path: 'recipes', component: RecipeListComponent },
-  { path: 'recipes/new', component: RecipeFormComponent },
-  { path: 'recipes/:id', component: RecipeDetailComponent },
-  { path: 'recipes/:id/edit', component: RecipeFormComponent },
-  { path: 'categories', component: CategoryFormComponent },
-  { path: '**', redirectTo: '/recipes' }
-];
+import { HeaderComponent } from './header/header.component';
+import { AppRoutingModule } from './app-routing.module';
+import { RouterModule } from '@angular/router';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getAuth, provideAuth } from '@angular/fire/auth';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RecipeListComponent,
-    RecipeDetailComponent,
-    RecipeFormComponent,
-    CategoryFormComponent,
-    CookingTimePipe,
-    HighlightDirective,
-    ImageFallbackDirective,
-    NavbarComponent
+    HeaderComponent,
   ],
+  bootstrap: [AppComponent],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
-    ReactiveFormsModule,
-    FormsModule,
-    RouterModule.forRoot(routes),
-    
-    // Material modules
-    MatToolbarModule,
-    MatSidenavModule,
-    MatButtonModule,
-    MatIconModule,
-    MatCardModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatChipsModule,
-    MatListModule,
-    MatStepperModule,
-    MatDividerModule,
-    MatSnackBarModule,
-    MatMenuModule,
-    MatBadgeModule,
-    MatProgressSpinnerModule
+    AppRoutingModule,
+    SharedModule,
+    CoreModule,
+    RouterModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [provideHttpClient(withInterceptorsFromDi()),
+    provideFirebaseApp(() =>
+        initializeApp({
+            projectId: "webkert-recept",
+            appId: "1:415844713594:web:9c6ea6f61eee96c71da7c3",
+            storageBucket: "webkert-recept.firebasestorage.app",
+            apiKey: "AIzaSyBJ7F3enoMK4fcfEPpI6FsyruZNPEo2u7U",
+            authDomain: "webkert-recept.firebaseapp.com",
+            messagingSenderId: "415844713594" })),
+        provideAuth(() => getAuth()), provideFirestore(() => getFirestore())],
 })
-export class AppModule { }
+export class AppModule {}

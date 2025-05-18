@@ -1,42 +1,17 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { Component } from '@angular/core';
+import { AuthService } from './auth/auth.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  standalone: false
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css'],
+    standalone: false
 })
-export class AppComponent implements OnInit {
-  @ViewChild('sidenav') sidenav: MatSidenav;
-  title = 'Recipe Manager';
-  isHandset$: Observable<boolean>;
+export class AppComponent {
 
-  navItems = [
-    { name: 'My Recipes', route: '/recipes', icon: 'menu_book' },
-    { name: 'Categories', route: '/categories', icon: 'category' }
-  ];
+  constructor(private authService: AuthService){}
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
-
-  ngOnInit(): void {
-    this.isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset)
-      .pipe(
-        map(result => result.matches),
-        shareReplay()
-      );
-  }
-
-  toggleSidenav(): void {
-    this.sidenav.toggle();
-  }
-
-  closeSidenav(): void {
-    if (this.sidenav.mode === 'over') {
-      this.sidenav.close();
-    }
+  ngOnInit() {
+    this.authService.autoLogin();
   }
 }
